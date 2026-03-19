@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Selamat Idul Fitri</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Georgia',serif; background:#0a1a0a; color:#f0e6c8; overflow-x:hidden; }
+
+    /* BG gradient aura */
+    .bg {
+      position:fixed; inset:0; z-index:0;
+      background: radial-gradient(ellipse at 50% 40%, #2a5a0a44 0%, transparent 70%),
+                  radial-gradient(ellipse at 20% 80%, #c8a84b22 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 20%, #ff6b0011 0%, transparent 50%),
+                  linear-gradient(180deg,#0a1628 0%,#0d2010 50%,#1a0d00 100%);
+      animation: auraPulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes auraPulse {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.3) hue-rotate(10deg); }
+    }
+
+    /* Aura ring */
+    .aura-ring {
+      position:fixed; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:600px; height:600px;
+      border-radius:50%;
+      background: radial-gradient(ellipse, #c8a84b08 0%, #f5d76e05 40%, transparent 70%);
+      animation: ringPulse 3s ease-in-out infinite;
+      z-index:1; pointer-events:none;
+    }
+    @keyframes ringPulse {
+      0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.5; }
+      50%      { transform:translate(-50%,-50%) scale(1.3); opacity:1; }
+    }
+
+    /* Bintang */
+    .stars { position:fixed; inset:0; z-index:1; pointer-events:none; }
+    .star { position:absolute; background:#fff; border-radius:50%; animation:twinkle 3s infinite alternate; }
+    @keyframes twinkle { from{opacity:0.2;} to{opacity:1;} }
+
+    /* Bulan */
+    .moon {
+      position:fixed; top:30px; right:80px;
+      width:80px; height:80px;
+      background:#f5d76e; border-radius:50%;
+      box-shadow:0 0 60px #f5d76ecc, 0 0 120px #f5d76e44;
+      z-index:2;
+      animation: moonGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes moonGlow {
+      from { box-shadow:0 0 40px #f5d76eaa; }
+      to   { box-shadow:0 0 80px #f5d76eff, 0 0 140px #f5d76e66; }
+    }
+    .moon::after {
+      content:''; position:absolute; top:8px; left:12px;
+      width:62px; height:62px; background:#0d1a28; border-radius:50%;
+    }
+
+    /* Lampion */
+    .lampion { position:fixed; top:0; z-index:2; display:flex; flex-direction:column; align-items:center; animation:swing 3s ease-in-out infinite alternate; transform-origin:top center; }
+    .lampion.left { left:20px; } .lampion.right { right:20px; }
+    @keyframes swing { from{transform:rotate(-8deg);} to{transform:rotate(8deg);} }
+    .tali { width:2px; height:50px; background:#c8a84b; }
+    .badan { width:38px; height:56px; background:radial-gradient(ellipse,#ff6b00,#cc2200); border-radius:50%; box-shadow:0 0 24px #ff6b00cc; position:relative; animation:lampionGlow 2s ease-in-out infinite alternate; }
+    @keyframes lampionGlow { from{box-shadow:0 0 18px #ff6b0099;} to{box-shadow:0 0 36px #ff6b00ff,0 0 60px #ff6b0044;} }
+    .badan::before,.badan::after { content:''; position:absolute; left:50%; transform:translateX(-50%); width:42px; height:7px; background:#c8a84b; border-radius:4px; }
+    .badan::before{top:-4px;} .badan::after{bottom:-4px;}
+    .rumbai { display:flex; gap:4px; margin-top:4px; }
+    .rumbai span { width:2px; height:18px; background:#c8a84b; border-radius:2px; }
+
+    /* Partikel takbir melayang */
+    .particle { position:fixed; pointer-events:none; z-index:2; font-size:14px; color:#f5d76e; animation:floatUp linear infinite; opacity:0; }
+    @keyframes floatUp {
+      0%   { transform:translateY(0) rotate(0deg); opacity:1; }
+      100% { transform:translateY(-100vh) rotate(360deg); opacity:0; }
+    }
+
+    /* Ketupat melayang */
+    .ketupat { position:fixed; pointer-events:none; z-index:2; font-size:20px; animation:floatSide linear infinite; opacity:0; }
+    @keyframes floatSide {
+      0%   { transform:translateY(100vh) rotate(0deg); opacity:0.8; }
+      100% { transform:translateY(-20px) rotate(180deg); opacity:0; }
+    }
+
+    /* Masjid siluet */
+    .masjid { position:fixed; bottom:0; left:0; right:0; height:160px; z-index:2; pointer-events:none; }
+    .masjid svg { width:100%; height:100%; }
+
+    /* Konten */
+    .page { position:relative; z-index:3; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:60px 20px 200px; }
+
+    .header { text-align:center; margin-bottom:30px; }
+    .arabik { font-size:34px; color:#f5d76e; text-shadow:0 0 20px #f5d76ecc; margin-bottom:8px; }
+    .judul-utama { font-size:44px; font-weight:bold; color:#fff; text-shadow:0 0 40px #f5d76eaa,0 2px 4px #000; letter-spacing:3px; line-height:1.2; margin-bottom:6px; animation:judulGlow 2s ease-in-out infinite alternate; }
+    @keyframes judulGlow { from{text-shadow:0 0 20px #f5d76e88;} to{text-shadow:0 0 60px #f5d76eff,0 0 100px #c8a84b88;} }
+    .subjudul { font-size:18px; color:#c8a84b; letter-spacing:4px; }
+    .ornamen { font-size:24px; color:#c8a84b; letter-spacing:8px; margin:14px 0; }
+
+    /* Takbir teks berjalan */
+    .takbir-bar {
+      width:100%; max-width:680px;
+      background:#c8a84b22;
+      border:1px solid #c8a84b44;
+      border-radius:30px;
+      padding:10px 20px;
+      overflow:hidden;
+      margin-bottom:30px;
+    }
+    .takbir-scroll {
+      white-space:nowrap;
+      display:inline-block;
+      animation:scrollText 12s linear infinite;
+      color:#f5d76e; font-size:16px; letter-spacing:2px;
+    }
+    @keyframes scrollText { from{transform:translateX(100%);} to{transform:translateX(-100%);} }
+
+    /* 5 kata */
+    .kata-list { display:flex; flex-direction:column; align-items:center; gap:16px; margin:10px 0 40px; }
+    .kata-item { display:flex; align-items:center; gap:14px; opacity:0; transform:translateY(20px); animation:fadeUp 0.6s forwards; }
+    .kata-item:nth-child(1){animation-delay:0.2s;} .kata-item:nth-child(2){animation-delay:0.5s;}
+    .kata-item:nth-child(3){animation-delay:0.8s;} .kata-item:nth-child(4){animation-delay:1.1s;}
+    .kata-item:nth-child(5){animation-delay:1.4s;}
+    @keyframes fadeUp { to{opacity:1;transform:translateY(0);} }
+    .kata-icon { font-size:26px; }
+    .kata-teks { font-size:18px; color:#e8dcc0; }
+
+    /* Card info */
+    .card { background:linear-gradient(160deg,#1a2e1a,#0d1f0d); border:1px solid #c8a84b66; border-radius:16px; max-width:680px; width:100%; padding:36px 32px; box-shadow:0 0 40px #c8a84b22; margin-bottom:30px; }
+    .card-title { font-size:20px; color:#f5d76e; text-align:center; margin-bottom:20px; letter-spacing:1px; }
+    .info-list { display:flex; flex-direction:column; gap:16px; }
+    .info-item { display:flex; gap:14px; align-items:flex-start; padding-bottom:16px; border-bottom:1px solid #c8a84b22; }
+    .info-item:last-child { border-bottom:none; padding-bottom:0; }
+    .info-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+    .info-judul { font-size:15px; color:#f5d76e; margin-bottom:4px; }
+    .info-desc { font-size:13px; color:#c8b89a; line-height:1.7; }
+
+    /* Galeri foto */
+    .galeri-section { max-width:100%; width:100%; margin-bottom:30px; padding:0 10px; }
+    .galeri-title { font-size:18px; color:#f5d76e; text-align:center; margin-bottom:16px; letter-spacing:1px; }
+    .galeri-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .foto-slot {
+      aspect-ratio:1; border-radius:10px;
+      border:1px dashed #c8a84b66;
+      background:#1a2e1a;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      color:#c8a84b88; font-size:12px; text-align:center; gap:6px;
+      cursor:pointer; transition:all 0.3s;
+    }
+    .foto-slot:hover { border-color:#c8a84b; background:#1a3a1a; color:#c8a84b; }
+    .foto-slot .icon { font-size:28px; }
+    .foto-slot img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
+
+    /* Floating music player */
+    .float-player {
+      position:fixed; bottom:24px; left:24px; z-index:100;
+      display:flex; align-items:flex-end; gap:12px;
+    }
+    .float-btn {
+      width:60px; height:60px; border-radius:50%;
+      background:linear-gradient(135deg,#c8a84b,#f5d76e);
+      border:none; cursor:pointer; font-size:26px;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 0 20px #c8a84baa, 0 4px 12px #0008;
+      transition:all 0.2s; flex-shrink:0;
+      animation:floatBob 3s ease-in-out infinite;
+    }
+    .float-btn:hover { transform:scale(1.12); box-shadow:0 0 32px #f5d76ecc; }
+    @keyframes floatBob {
+      0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);}
+    }
+    .float-btn.playing { animation:floatBob 3s ease-in-out infinite, glowPulse 1.5s ease-in-out infinite alternate; }
+    @keyframes glowPulse { from{box-shadow:0 0 20px #c8a84baa;} to{box-shadow:0 0 40px #f5d76eff,0 0 60px #c8a84b88;} }
+
+    .float-panel {
+      background:#0d1f0d; border:1px solid #c8a84b66;
+      border-radius:14px; padding:14px 16px;
+      min-width:220px; max-width:260px;
+      box-shadow:0 4px 24px #0008;
+      display:none; flex-direction:column; gap:10px;
+    }
+    .float-panel.open { display:flex; }
+    .float-song { font-size:13px; color:#f5d76e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .float-sub  { font-size:11px; color:#c8a84b88; }
+    .float-bar  { height:3px; background:#c8a84b22; border-radius:2px; cursor:pointer; }
+    .float-fill { height:100%; background:#c8a84b; border-radius:2px; width:0%; transition:width 0.1s; }
+    .float-row  { display:flex; align-items:center; gap:8px; }
+    .float-time { font-size:10px; color:#c8a84b66; }
+    .float-upload { background:transparent; border:1px dashed #c8a84b44; color:#c8a84b88; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:11px; width:100%; transition:all 0.2s; }
+    .float-upload:hover { border-color:#c8a84b; color:#c8a84b; }
+    @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+    /* Scroll hint */
+    .scroll-hint { position:fixed; bottom:170px; left:50%; transform:translateX(-50%); z-index:10; display:flex; flex-direction:column; align-items:center; gap:6px; color:#c8a84b; font-size:12px; animation:fadeInOut 2s ease-in-out infinite; transition:opacity 0.5s; }
+    .arrow { width:18px; height:18px; border-right:2px solid #c8a84b; border-bottom:2px solid #c8a84b; transform:rotate(45deg); animation:bounceDown 1.2s ease-in-out infinite; }
+    @keyframes bounceDown { 0%,100%{transform:rotate(45deg) translateY(0);} 50%{transform:rotate(45deg) translateY(6px);} }
+    @keyframes fadeInOut { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+  </style>
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div id="splash" style="
+  position:fixed; inset:0; z-index:9999;
+  background:linear-gradient(160deg,#0a1628,#0d2010,#1a0d00);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:pointer; gap:20px;
+" onclick="startSite()">
+  <div style="font-size:60px; animation:bobSplash 1.5s ease-in-out infinite alternate;">🌙</div>
+  <div style="font-size:28px; color:#f5d76e; font-family:Georgia,serif; text-shadow:0 0 30px #f5d76eaa; text-align:center; line-height:1.5;">
+    Selamat Idul Fitri<br>
+    <span style="font-size:16px; color:#c8a84b;">1 Syawal 1446 H</span>
+  </div>
+  <div style="
+    margin-top:10px; padding:14px 36px;
+    background:#c8a84b; border-radius:30px;
+    color:#0a1a0a; font-size:15px; font-family:Georgia,serif;
+    box-shadow:0 0 24px #c8a84baa;
+    animation:pulseSplash 1.2s ease-in-out infinite alternate;
+  ">✨ Buka Ucapan</div>
+  <div style="font-size:12px; color:#c8a84b66; margin-top:4px;">Ketuk untuk membuka</div>
+</div>
+
+<style>
+  @keyframes bobSplash { from{transform:translateY(0);} to{transform:translateY(-14px);} }
+  @keyframes pulseSplash { from{box-shadow:0 0 16px #c8a84b88;} to{box-shadow:0 0 36px #f5d76eff;} }
+</style>
+
+<div class="bg"></div>
+<div class="aura-ring"></div>
+<div class="stars" id="stars"></div>
+<div class="moon"></div>
+
+<div class="lampion left"><div class="tali"></div><div class="badan"></div><div class="rumbai"><span></span><span></span><span></span><span></span></div></div>
+<div class="lampion right"><div class="tali"></div><div class="badan"></div><div class="rumbai"><span></span><span></span><span></span><span></span></div></div>
+
+<div class="masjid">
+  <svg viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#0a1a0a" d="M0,160 L0,100 L60,100 L60,80 L80,60 L100,80 L100,100 L160,100 L160,70 L180,40 L200,20 L210,10 L220,20 L240,40 L260,70 L260,100 L320,100 L320,80 L340,60 L360,80 L360,100 L440,100 L440,70 L460,40 L480,20 L490,5 L500,20 L520,40 L540,70 L540,100 L620,100 L620,80 L640,60 L660,80 L660,100 L720,100 L720,70 L740,40 L760,20 L770,5 L780,20 L800,40 L820,70 L820,100 L900,100 L900,80 L920,60 L940,80 L940,100 L1000,100 L1000,70 L1020,40 L1040,20 L1050,5 L1060,20 L1080,40 L1100,70 L1100,100 L1160,100 L1160,80 L1180,60 L1200,80 L1200,100 L1280,100 L1280,70 L1300,40 L1320,20 L1330,5 L1340,20 L1360,40 L1380,70 L1380,100 L1440,100 L1440,160 Z"/>
+  </svg>
+</div>
+
+<div class="page">
+  <div class="header">
+    <div class="arabik">اللهُ أَكْبَرُ اللهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللهُ</div>
+    <div class="ornamen">☽ ✦ ✦ ✦ ☾</div>
+    <div class="judul-utama">Selamat Menunaikan<br>Idul Fitri</div>
+    <div class="subjudul">1 Syawal 1446 H</div>
+    <div class="ornamen">✦ ❁ ✦ ❁ ✦</div>
+  </div>
+
+  <!-- Takbir berjalan -->
+  <div class="takbir-bar">
+    <div class="takbir-scroll">
+      🌙 Allahu Akbar Allahu Akbar Allahu Akbar &nbsp;&nbsp; Laa Ilaaha Illallahu Wallahu Akbar &nbsp;&nbsp; Allahu Akbar Walillahil Hamd &nbsp;&nbsp; 🌙 Allahu Akbar Allahu Akbar Allahu Akbar
+    </div>
+  </div>
+
+
+
+  <!-- Info Idul Fitri -->
+  <div class="card">
+    <div class="card-title">✦ Tentang Idul Fitri ✦</div>
+    <div class="info-list">
+      <div class="info-item"><span class="info-icon">📖</span><div><div class="info-judul">Makna Idul Fitri</div><div class="info-desc">Idul Fitri berasal dari kata "Id" (kembali) dan "Fitri" (suci). Menandai kembalinya umat Muslim ke fitrah setelah sebulan penuh berpuasa di bulan Ramadan.</div></div></div>
+      <div class="info-item"><span class="info-icon">🕌</span><div><div class="info-judul">Shalat Idul Fitri</div><div class="info-desc">Dilaksanakan pagi hari tanggal 1 Syawal secara berjamaah. Hukumnya sunnah muakkad, dianjurkan di lapangan terbuka agar dapat dihadiri banyak umat.</div></div></div>
+      <div class="info-item"><span class="info-icon">🌾</span><div><div class="info-judul">Zakat Fitrah</div><div class="info-desc">Wajib dibayar sebelum shalat Id berupa makanan pokok atau uang senilai 2,5 kg beras per jiwa sebagai bentuk kepedulian kepada sesama.</div></div></div>
+      <div class="info-item"><span class="info-icon">🤝</span><div><div class="info-judul">Silaturahmi</div><div class="info-desc">Tradisi saling mengunjungi, bermaaf-maafan, dan mempererat tali persaudaraan antar keluarga, kerabat, dan tetangga.</div></div></div>
+      <div class="info-item"><span class="info-icon">🍪</span><div><div class="info-judul">Tradisi Lebaran</div><div class="info-desc">Mudik, ketupat opor ayam, berbagi THR, dan mengenakan pakaian baru sebagai simbol kesucian dan kebahagiaan.</div></div></div>
+    </div>
+  </div>
+
+  <!-- Foto + Ucapan Keluarga -->
+  <div class="galeri-section">
+    <input type="file" id="inputFoto" accept="image/*" style="display:none" onchange="loadFotoUtama(event)"/>
+
+    <!-- Foto -->
+    <div id="fotoCard" onclick="document.getElementById('inputFoto').click()" style="
+      position:relative; width:100%; max-width:680px; margin:0 auto;
+      aspect-ratio:4/3; border-radius:20px 20px 0 0; overflow:hidden;
+      background:#1a2e1a; border:1px dashed #c8a84b66;
+      display:flex; align-items:center; justify-content:center; cursor:pointer;
+    ">
+      <div id="fotoPlaceholder" style="display:flex;flex-direction:column;align-items:center;gap:8px;color:#c8a84b88;font-size:14px;">
+        <span style="font-size:40px;">🖼️</span>
+        <span>Klik untuk tambah foto keluarga</span>
+      </div>
+      <img id="fotoImg" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
+    </div>
+
+    <!-- Tulisan ucapan di bawah foto -->
+    <div style="
+      width:100%; max-width:680px; margin:0 auto;
+      text-align:center; padding:28px 24px;
+      background:linear-gradient(160deg,#1a2e1a,#0d1f0d);
+      border:1px solid #c8a84b44; border-top:none;
+      border-radius:0 0 20px 20px;
+    ">
+      <div style="font-size:12px;color:#c8a84b;letter-spacing:2px;margin-bottom:8px;">ATAS NAMA</div>
+      <div style="font-size:22px;color:#f5d76e;font-weight:bold;text-shadow:0 0 20px #f5d76e88;margin-bottom:12px;">Keluarga Besar Pak Soeyono</div>
+      <div style="font-size:13px;color:#c8a84b;margin-bottom:6px;">Mengucapkan</div>
+      <div style="font-size:26px;color:#f5d76e;text-shadow:0 0 14px #f5d76e88;margin-bottom:4px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</div>
+      <div style="font-size:13px;color:#e8dcc0;font-style:italic;margin-bottom:14px;">Taqabbalallāhu minnā wa minkum</div>
+      <div style="width:50px;height:1px;background:#c8a84b66;margin:0 auto 14px;"></div>
+      <div style="font-size:20px;color:#f5d76e;font-weight:bold;margin-bottom:6px;">Minal Aidin Wal Faizin</div>
+      <div style="font-size:14px;color:#c8b89a;">Mohon Maaf Lahir dan Batin</div>
+    </div>
+  </div>
+
+  <!-- Floating Music Player -->
+  <div class="float-player">
+    <div class="float-panel" id="floatPanel">
+      <div>
+        <div class="float-song" id="songName">Pilih lagu...</div>
+        <div class="float-sub" id="songSub">Upload lagu MP3</div>
+      </div>
+      <div class="float-bar" onclick="seekAudio(event)">
+        <div class="float-fill" id="progressFill"></div>
+      </div>
+      <div class="float-row">
+        <span class="float-time" id="timeLabel">0:00 / 0:00</span>
+      </div>
+      <input type="file" id="inputLagu" accept="audio/*" multiple style="display:none" onchange="loadLagu(event)"/>
+      <button class="float-upload" onclick="document.getElementById('inputLagu').click()">🎵 Upload Lagu</button>
+    </div>
+    <button class="float-btn" id="floatBtn" onclick="togglePlayer()">🎵</button>
+  </div>
+
+<div class="scroll-hint" id="scrollHint"><span>Geser ke bawah</span><div class="arrow"></div></div>
+<audio id="audioPlayer" src="assets/lagu/YTDown.com_YouTube_Upin-_-Ipin-Suasana-Hari-Raya-Sing-Along_Media_MmFGRFL6Lio_008_128k.mp3" loop onended="nextSong()"></audio>
+
+<script>
+  // Bintang
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 150; i++) {
+    const s = document.createElement('div');
+    s.classList.add('star');
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+    starsEl.appendChild(s);
+  }
+
+  // Partikel takbir & ketupat
+  const symbols = ['✨','🌙','⭐','🌟','💫','🎊','🎉'];
+  const ketupats = ['🪔','🌿','🍃','🌸','🎋'];
+  function spawnParticle() {
+    const el = document.createElement('div');
+    el.classList.add('particle');
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.cssText = `left:${Math.random()*100}%;bottom:0;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*2}s;font-size:${12+Math.random()*16}px;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 10000);
+  }
+  function spawnKetupat() {
+    const el = document.createElement('div');
+    el.classList.add('ketupat');
+    el.textContent = ketupats[Math.floor(Math.random()*ketupats.length)];
+    el.style.cssText = `left:${Math.random()*100}%;animation-duration:${6+Math.random()*8}s;animation-delay:${Math.random()*3}s;font-size:${16+Math.random()*20}px;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 12000);
+  }
+  setInterval(spawnParticle, 400);
+  setInterval(spawnKetupat, 1200);
+
+  // Scroll hint
+  const hint = document.getElementById('scrollHint');
+  window.addEventListener('scroll', () => { hint.style.opacity = window.scrollY > 80 ? '0' : '1'; });
+
+  function loadFotoUtama(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    document.getElementById('fotoImg').src = url;
+    document.getElementById('fotoImg').style.display = 'block';
+    document.getElementById('fotoPlaceholder').style.display = 'none';
+  }
+
+  // Floating player
+  const audio = document.getElementById('audioPlayer');
+  let songs = [{ name: 'Suasana Hari Raya - Upin & Ipin', url: 'assets/lagu/YTDown.com_YouTube_Upin-_-Ipin-Suasana-Hari-Raya-Sing-Along_Media_MmFGRFL6Lio_008_128k.mp3' }];
+  let currentIdx = 0, isPlaying = false;
+
+  // Splash + autoplay
+  function startSite() {
+    document.getElementById('splash').style.display = 'none';
+    audio.play().then(() => {
+      isPlaying = true;
+      document.getElementById('floatBtn').textContent = '⏸';
+      document.getElementById('floatBtn').classList.add('playing');
+    });
+  }
+
+  // Autoplay saat halaman siap
+  window.addEventListener('load', () => {
+    document.getElementById('songName').textContent = songs[0].name;
+    document.getElementById('songSub').textContent = 'Sedang diputar ♪';
+    audio.play().then(() => {
+      isPlaying = true;
+      document.getElementById('floatBtn').textContent = '⏸';
+      document.getElementById('floatBtn').classList.add('playing');
+    }).catch(() => {
+      // Browser blokir autoplay, tunggu interaksi user
+      document.getElementById('songSub').textContent = 'Klik 🎵 untuk putar';
+    });
+  });
+
+  function togglePlayer() {
+    const panel = document.getElementById('floatPanel');
+    panel.classList.toggle('open');
+  }
+
+  function loadLagu(e) {
+    const files = Array.from(e.target.files);
+    files.forEach(f => songs.push({ name: f.name.replace(/\.[^.]+$/, ''), url: URL.createObjectURL(f) }));
+    if (songs.length === files.length) playSong(0);
+  }
+
+  function playSong(idx) {
+    currentIdx = idx;
+    audio.src = songs[idx].url;
+    audio.play();
+    isPlaying = true;
+    document.getElementById('songName').textContent = songs[idx].name;
+    document.getElementById('songSub').textContent = 'Sedang diputar ♪';
+    const btn = document.getElementById('floatBtn');
+    btn.textContent = '⏸';
+    btn.classList.add('playing');
+  }
+
+  function togglePlayer() {
+    const panel = document.getElementById('floatPanel');
+    // Jika panel sudah open dan ada lagu, klik tombol = toggle play/pause
+    if (panel.classList.contains('open') && songs.length) {
+      if (isPlaying) {
+        audio.pause(); isPlaying = false;
+        document.getElementById('floatBtn').textContent = '▶';
+        document.getElementById('floatBtn').classList.remove('playing');
+      } else {
+        audio.play(); isPlaying = true;
+        document.getElementById('floatBtn').textContent = '⏸';
+        document.getElementById('floatBtn').classList.add('playing');
+      }
+    } else {
+      panel.classList.toggle('open');
+    }
+  }
+
+  function nextSong() { playSong(currentIdx < songs.length - 1 ? currentIdx + 1 : 0); }
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration * 100) + '%';
+    const fmt = t => `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
+    document.getElementById('timeLabel').textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+  });
+
+  audio.addEventListener('ended', nextSong);
+
+  function seekAudio(e) {
+    if (!audio.duration) return;
+    audio.currentTime = (e.offsetX / e.currentTarget.offsetWidth) * audio.duration;
+  }
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "npx serve .",
-    "start": "npx serve ."
+    "start": "npx serve .",
+    "build": "echo Build selesai - tidak perlu build untuk proyek HTML"
   }
 }
